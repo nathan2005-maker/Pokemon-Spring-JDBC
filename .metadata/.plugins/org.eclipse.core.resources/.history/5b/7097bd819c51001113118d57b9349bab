@@ -1,0 +1,112 @@
+package com.pokemon.pokemonrpg.model;
+
+
+//CONEXAO COM BANCO DE DADOS
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "Pokemon") //NOME JDBC
+public class Pokemon {
+
+    @Id //PRIMARY KEY
+    private Integer id;
+
+    private String name;
+    private Integer hp;
+    private Integer attack;
+    private Integer defense;
+    
+    @Column(name = "Type1")
+    private String type1;
+    
+    @Column(name = "Type2")
+    private String type2;
+    
+    private Integer speed;
+    
+    @Column(name = "spAttack")
+    private Integer spAttack;
+    
+    @Column(name = "spDefense")
+    private Integer spDefense;
+    
+    private Double total;
+    private Double average;
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public Integer getHp() {
+		return hp;
+	}
+	public void setHp(Integer hp) {
+		this.hp = hp;
+	}
+	public Integer getAttack() {
+		return attack;
+	}
+	public void setAttack(Integer attack) {
+		this.attack = attack;
+	}
+	public Integer getDefense() {
+		return defense;
+	}
+	public void setDefense(Integer defense) {
+		this.defense = defense;
+	}
+	public String getType1() {
+		return type1;
+	}
+	public void setType1(String type1) {
+		this.type1 = type1;
+	}
+	public String getType2() {
+		return type2;
+	}
+	public void setType2(String type2) {
+		this.type2 = type2;
+	}
+	public Integer getSpeed() {
+		return speed;
+	}
+	public void setSpeed(Integer speed) {
+		this.speed = speed;
+	}
+	public Integer getSpAttack() {
+		return spAttack;
+	}
+	public void setSpAttack(Integer spAttack) {
+		this.spAttack = spAttack;
+	}
+	public Integer getSpDefense() {
+		return spDefense;
+	}
+	public void setSpDefense(Integer spDefense) {
+		this.spDefense = spDefense;
+	}
+	public Double getTotal() {
+		return total;
+	}
+	public void setTotal(Double total) {
+		this.total = total;
+	}
+	public Double getAverage() {
+		return average;
+	}
+	public void setAverage(Double average) {
+		this.average = average;
+	}
+
+    
+}

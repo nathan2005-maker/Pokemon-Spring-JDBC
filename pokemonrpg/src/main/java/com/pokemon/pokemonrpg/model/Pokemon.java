@@ -1,21 +1,13 @@
 package com.pokemon.pokemonrpg.model;
 
-
-//CONEXAO COM BANCO DE DADOS
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Pokemon") //NOME JDBC
-public class Pokemon {
+@Table(name = "Pokemon") 
+public class Pokemon extends modelPokemon {
 
-    @Id //PRIMARY KEY
-    private Integer id;
-
-    private String name;
-    private Integer hp;
     private Integer attack;
     private Integer defense;
     
@@ -35,24 +27,7 @@ public class Pokemon {
     
     private Double total;
     private Double average;
-	public Integer getId() {
-		return id;
-	}
-	public void setId(Integer id) {
-		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public Integer getHp() {
-		return hp;
-	}
-	public void setHp(Integer hp) {
-		this.hp = hp;
-	}
+
 	public Integer getAttack() {
 		return attack;
 	}
@@ -107,6 +82,4 @@ public class Pokemon {
 	public void setAverage(Double average) {
 		this.average = average;
 	}
-
-    
 }
