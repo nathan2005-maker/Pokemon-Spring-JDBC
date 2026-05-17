@@ -1,0 +1,11 @@
+package com.pokemon.pokemonrpg.service;
+
+import com.pokemon.pokemonrpg.model.Pokemon;
+import com.pokemon.pokemonrpg.model.Types;
+import org.springframework.stereotype.Service;
+
+@Service
+public class DamageService{
+	
+
+}

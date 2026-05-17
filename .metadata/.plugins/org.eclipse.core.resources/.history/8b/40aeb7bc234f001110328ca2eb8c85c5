@@ -1,0 +1,78 @@
+package com.pokemon.pokemonrpg.model;
+
+import java.util.EnumSet;
+
+public enum Types {
+    GRASS, FIRE, WATER, BUG, NORMAL, POISON, ELECTRIC, GROUND, 
+    FLYING, ICE, GHOST, PSYCHIC, ROCK, DRAGON, FIGHTING;
+
+    private EnumSet<Types> FRAQUEZAS;
+    private EnumSet<Types> VANTAGENS;
+    private EnumSet<Types> IMUNIDADE;
+
+    // Método para configurar as relações
+    public void definirInteracoes(EnumSet<Types> fraquezas, EnumSet<Types> vantagens, EnumSet<Types> imunidade) {
+        this.FRAQUEZAS = fraquezas;
+        this.VANTAGENS = vantagens;
+        this.IMUNIDADE = imunidade;
+    }
+    
+    static {
+    	
+    	FIRE.definirInteracoes
+    		(EnumSet.of(Types.WATER, Types.GROUND, Types.ROCK),/*FRAQUEZAS FOGO*/
+    		EnumSet.of(Types.GRASS, Types.ICE, Types.BUG)); /*VANTAGENS FOGO*/
+    	
+    	
+    	
+    	GRASS.definirInteracoes
+    		(EnumSet.of(Types.FIRE, Types.BUG, Types.POISON, Types.FLYING, Types.ICE), /*FRAQUEZAS PLANTA*/
+    		EnumSet.of(Types.GROUND, Types.ROCK, Types.WATER));/*VANTAGENS PLANTA*/
+    	
+    	 WATER.definirInteracoes
+    	 	(EnumSet.of(Types.GRASS, Types.ELECTRIC), /*FRAQUEZAS AGUA*/
+    	 	EnumSet.of(Types.GROUND, Types.ROCK, Types.FIRE)); /*VANTAGENS AGUA*/
+    	
+    	 BUG.definirInteracoes
+    	 	(EnumSet.of(Types.FLYING, Types.ROCK, Types.FIRE), /*FRAQUEZAS INSETO*/
+    		EnumSet.of(Types.GRASS, Types.PSYCHIC)); /*VANTAGENS INSETO*/
+    	 
+    	 NORMAL.definirInteracoes
+    	 	(EnumSet.of(Types.FIGHTING), /*FRAQUEZAS NORMAL*/
+    	 	EnumSet.of(null),
+    	 	EnumSet.of(Types.GHOST));
+
+    	POISON.definirInteracoes
+    		(EnumSet.of(Types.GROUND, Types.PSYCHIC), /*FRAQUEZAS VENENOSO*/
+    		EnumSet.of(Types.GRASS)); /*VANTAGENS VENENOSO*/
+    	
+    	ELECTRIC.definirInteracoes
+    		(EnumSet.of(Types.GROUND), /*FRAQUEZA ELETRICO*/
+    		EnumSet.of(Types.FLYING, Types.WATER));	/*VANTAGEM ELETRICO*/
+    	
+    	GROUND.definirInteracoes
+    		(EnumSet.of(Types.WATER, Types.GRASS, Types.ICE), /*FRAQUEZAS TERRESTRE*/
+    		EnumSet.of(Types.POISON, Types.ROCK, Types.FIRE, Types.ELECTRIC)); /*VANTAGENS TERRESTRE*/
+    	
+    	FLYING.definirInteracoes
+    		(EnumSet.of(Types.ROCK, Types.ELECTRIC, Types.ICE), /*FRAQUEZA VOADOR*/
+    		EnumSet.of(Types.FIGHTING, Types.BUG, Types.GRASS)); /*VANTAGENS VOADOR*/
+    	
+    	ICE.definirInteracoes
+    		(EnumSet.of(Types.FIGHTING, Types.ROCK, Types.FIRE), /*FRAQUEZA GELO*/
+    		EnumSet.of(Types.FLYING, Types.GROUND, Types.GRASS, Types.DRAGON)); /*VANTAGENS GELO*/
+
+    	GHOST.definirInteracoes
+			(EnumSet.of(Types.GHOST), /*FRAQUEZA FANTASMA*/
+			EnumSet.of(Types.GHOST, Types.PSYCHIC)); /*VANTAGENS FANTASMA*/
+    	
+    	PSYCHIC.definirInteracoes
+			(EnumSet.of(Types.BUG, Types.GHOST), /*FRAQUEZA PYSICO*/
+			EnumSet.of(Types.FIGHTING, Types.POISON)); /*VANTAGENS PYSICO*/
+    	
+    	ROCK.definirInteracoes
+			(EnumSet.of(Types.BUG, Types.GHOST), /*FRAQUEZA PYSICO*/
+		    EnumSet.of(Types.FIGHTING, Types.POISON)); /*VANTAGENS PYSICO*/
+    }
+
+ }

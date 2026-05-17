@@ -1,0 +1,18 @@
+package com.pokemon.pokemonrpg.service;
+
+import org.springframework.stereotype.Component;
+
+@Component
+public class DamageCalculate {
+
+    public int calculateRawDamage(int level, int basePower, int attack, int defense, double modifiers) {
+        
+        int step1 = ((2 * level) / 5) + 2;
+        
+        int step2 = (step1 * basePower * attack) / defense;
+
+        int baseDamage = (step2 / 50) + 2;
+        
+        return (int) Math.floor(baseDamage * modifiers);
+    }
+}

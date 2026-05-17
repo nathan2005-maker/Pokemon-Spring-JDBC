@@ -1,0 +1,44 @@
+package com.pokemon.pokemonrpg.model;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "Pokemon") // O nome exato da tabela na sua imagem
+public class Pokemon {
+
+    @Id // Diz que essa é a chave primária
+    private Integer id;
+
+    private String name;
+    private Integer hp;
+    private Integer attack;
+    private Integer defense;
+    
+    @Column(name = "Type1") // Necessário porque no banco está com letra maiúscula
+    private String type1;
+    
+    @Column(name = "Type2")
+    private String type2;
+    
+    private Integer speed;
+    
+    @Column(name = "spAttack")
+    private Integer spAttack;
+    
+    @Column(name = "spDefense")
+    private Integer spDefense;
+    
+    private Double total;
+    private Double average;
+
+    // Clique com o botão direito -> Source -> Generate Getters and Setters!
+}
+
+
+
+cl
+cls
+clear
