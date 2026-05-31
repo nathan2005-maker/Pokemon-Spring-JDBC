@@ -1,5 +1,6 @@
 package com.pokemon.pokemonrpg.service;
 
+import com.pokemon.pokemonrpg.model.DamageCategory; // Essencial
 import com.pokemon.pokemonrpg.model.Pokemon;
 import com.pokemon.pokemonrpg.model.Types;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,12 @@ public class AttackService implements CombatAction {
     private DamageCalculate damageCalculate;
 
     @Override
-    public int executeAttack(Pokemon atacante, Pokemon defensor, int movePower, Types moveType) {
+    public int executeAttack(Pokemon atacante, Pokemon defensor, int movePower, Types moveType, DamageCategory category) {
+        if (category == DamageCategory.STATUS) return 0;
+
+        int atkStat = (category == DamageCategory.PHYSICAL) ? atacante.getAttack() : atacante.getSpAttack();
+        int defStat = (category == DamageCategory.PHYSICAL) ? defensor.getDefense() : defensor.getSpDefense();
+
         double stab = calcularStab(atacante, moveType);
         double eficacia = calcularEficacia(defensor, moveType);
         double rng = 0.85 + (Math.random() * 0.15);
@@ -20,52 +26,29 @@ public class AttackService implements CombatAction {
         double totalModifiers = stab * eficacia * rng;
         int level = 50; 
 
-        return damageCalculate.calculateRawDamage(
-                level,
-                movePower,
-                atacante.getAttack(),
-                defensor.getDefense(),
-                totalModifiers
-        );
+        return damageCalculate.calculateRawDamage(level, movePower, atkStat, defStat, totalModifiers);
     }
 
     @Override
-    public int executeAttack(Pokemon atacante, Pokemon defensor, int movePower, Types moveType, boolean isCritical) {
-        int baseDamage = executeAttack(atacante, defensor, movePower, moveType);
+    public int executeAttack(Pokemon atacante, Pokemon defensor, int movePower, Types moveType, boolean isCritical, DamageCategory category) {
+        int baseDamage = executeAttack(atacante, defensor, movePower, moveType, category);
         return isCritical ? (int)(baseDamage * 1.5) : baseDamage;
     }
 
     private double calcularStab(Pokemon atacante, Types moveType) {
-        if (atacante.getType1() != null && moveType.name().equalsIgnoreCase(atacante.getType1().trim())) {
-            return 1.5;
-        }
-        if (atacante.getType2() != null && moveType.name().equalsIgnoreCase(atacante.getType2().trim())) {
-            return 1.5;
-        }
+        if (atacante.getType1() != null && moveType.name().equalsIgnoreCase(atacante.getType1().trim())) return 1.5;
+        if (atacante.getType2() != null && moveType.name().equalsIgnoreCase(atacante.getType2().trim())) return 1.5;
         return 1.0;
     }
 
     private double calcularEficacia(Pokemon defensor, Types moveType) {
         double multiplicador = 1.0;
-
         if (defensor.getType1() != null && !defensor.getType1().trim().isEmpty()) {
-            try {
-                Types defensorTipo1 = Types.valueOf(defensor.getType1().trim().toUpperCase());
-                multiplicador *= moveType.calcularEfetividadeContra(defensorTipo1);
-            } catch (IllegalArgumentException e) {
-            }
+            try { multiplicador *= moveType.calcularEfetividadeContra(Types.valueOf(defensor.getType1().trim().toUpperCase())); } catch (Exception e) {}
         }
-
-        if (defensor.getType2() != null && 
-            !defensor.getType2().trim().equalsIgnoreCase("NULL") && 
-            !defensor.getType2().trim().isEmpty()) {
-            try {
-                Types defensorTipo2 = Types.valueOf(defensor.getType2().trim().toUpperCase());
-                multiplicador *= moveType.calcularEfetividadeContra(defensorTipo2);
-            } catch (IllegalArgumentException e) {
-            }
+        if (defensor.getType2() != null && !defensor.getType2().trim().equalsIgnoreCase("NULL") && !defensor.getType2().trim().isEmpty()) {
+            try { multiplicador *= moveType.calcularEfetividadeContra(Types.valueOf(defensor.getType2().trim().toUpperCase())); } catch (Exception e) {}
         }
-
         return multiplicador;
     }
 }

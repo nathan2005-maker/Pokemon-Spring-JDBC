@@ -1,14 +1,16 @@
 package com.pokemon.pokemonrpg;
 
 import com.pokemon.pokemonrpg.model.Pokemon;
-import com.pokemon.pokemonrpg.model.Types;
+import com.pokemon.pokemonrpg.model.Attack;
 import com.pokemon.pokemonrpg.repository.PokemonRepository;
 import com.pokemon.pokemonrpg.service.CombatAction;
+import com.pokemon.pokemonrpg.service.AttackMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.Random;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
@@ -21,6 +23,9 @@ public class PokemonrpgApplication implements CommandLineRunner {
 
     @Autowired
     private CombatAction attackService;
+    
+    @Autowired
+    private AttackMenuService attackMenuService;
 
     public static void main(String[] args) {
         SpringApplication.run(PokemonrpgApplication.class, args);
@@ -29,7 +34,7 @@ public class PokemonrpgApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         
-
+    	try {
         List<Pokemon> pokemons = repository.findAll();
         for (Pokemon p : pokemons) {
             if (p.getType2() != null && !p.getType2().trim().equalsIgnoreCase("NULL") && !p.getType2().trim().isEmpty()) {
@@ -38,30 +43,79 @@ public class PokemonrpgApplication implements CommandLineRunner {
                 System.out.printf("ID: %d | Nome: %s | Tipo: %s\n", p.getId(), p.getName(), p.getType1().trim());
             }
         }
+    	}catch(Exception ex) {
+        	System.out.println("");
+        }
+        
         System.out.println("==================================================");
 
+        
         Scanner scanner = new Scanner(System.in);
 
         String escolhaPlayerUm = ("""
-        		PLAYER 1:
-        		ESCOLHA O SEU POKEMON (1-152):
+        		SELECT: POKEMON 1:
+        		ESCOLHA O SEU POKEMON (1-151):
         		""");
         System.out.print(escolhaPlayerUm);		
         int idAtacante = scanner.nextInt();
 
         String escolhaPlayerDois = ("""
-        		PLAYER 2:
-        		ESCOLHA O SEU POKEMON (1-152):
+        		SELECT: POKEMON 2:
+        		ESCOLHA O SEU POKEMON (1-151):
         		""");
         System.out.print(escolhaPlayerDois);
         int idDefensor = scanner.nextInt();
 
-        // 1. CONSULTA NO JDBC (Apenas leitura dos status imutáveis da base)
-        // Obs: Certifique-se de que os IDs 1 e 2 existem no seu SQLite!
         Optional<Pokemon> optAtacante = repository.findById(idAtacante); 
         Optional<Pokemon> optDefensor = repository.findById(idDefensor); 
-
         
+        System.out.println("==================================================");
+        
+        if (optAtacante.isPresent() && optDefensor.isPresent()) {
+            Pokemon atacante = optAtacante.get();
+            Pokemon defensor = optDefensor.get();
+
+            System.out.println("==================================================");
+            
+            //Chamada para usuario escolher o attack
+            Attack ataqueEscolhido = attackMenuService.selectAttack(scanner);
+
+            
+            int danoAtacante = attackService.executeAttack(
+                atacante, 
+                defensor, 
+                ataqueEscolhido.getPower(), 
+                ataqueEscolhido.getType(), 
+                ataqueEscolhido.getCategory() 
+            );
+
+            System.out.println("==================================================");
+            System.out.println(atacante.getName() + " usou " + ataqueEscolhido.getName() + "!");
+            
+            int attVidaPokemonDefensor = defensor.getHp() - danoAtacante;
+            if(attVidaPokemonDefensor <= 0) {
+            	System.out.println(" WINNER CHAMPIONS!");
+            	System.out.println("Vida de " + defensor.getName());
+            }
+            
+            
+            System.out.println("Dano causado: " + danoAtacante);
+            System.out.println("Vida Defensor: " + "");
+            
+        } else {
+            System.out.println("Pokémon não encontrado.");
         }
+        
+        System.out.println("Pokemon " + optDefensor.get() + "se preparando...");
+        String escolhaAttackPokemonDois = ("""
+        		CONTRA-ATAQUE DEFENSOR:
+        		SELECT ATTACK:
+        		""");
+        System.out.print(escolhaAttackPokemonDois);
+        int indiceAtaqueDefensor = scanner.nextInt() - 1;
+        
+        
+        
+    }
 
 }
