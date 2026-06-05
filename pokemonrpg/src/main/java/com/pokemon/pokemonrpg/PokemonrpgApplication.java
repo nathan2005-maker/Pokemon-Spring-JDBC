@@ -1,6 +1,7 @@
 package com.pokemon.pokemonrpg;
 
 import com.pokemon.pokemonrpg.model.Pokemon;
+import com.pokemon.pokemonrpg.SymbolPokemon;
 import com.pokemon.pokemonrpg.model.Attack;
 import com.pokemon.pokemonrpg.repository.PokemonRepository;
 import com.pokemon.pokemonrpg.service.CombatAction;
@@ -34,6 +35,9 @@ public class PokemonrpgApplication implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+    	
+    	SymbolPokemon.exibirMenu();
+    	Thread.sleep(5000);
         
     	try {
             List<Pokemon> pokemons = repository.findAll();

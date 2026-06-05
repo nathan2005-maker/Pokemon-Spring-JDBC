@@ -2,9 +2,7 @@ package com.pokemon.pokemonrpg;
 
 public class SymbolPokemon{
 
-    public class PokemonMenu {
-
-        public void exibirMenu() {
+        public static void exibirMenu() {
 
             System.out.println("                                   ,'\\");
             System.out.println("    _.----.         ____         ,'  _\\   ___     ___    ____");
@@ -21,5 +19,4 @@ public class SymbolPokemon{
             System.out.println("");
             
         } 
-    }
 }
