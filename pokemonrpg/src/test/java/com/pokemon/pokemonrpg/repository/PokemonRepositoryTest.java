@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import com.pokemon.pokemonrpg.model.Pokemon;
 import com.pokemon.pokemonrpg.service.AttackMenuService; // IMPORT ADICIONADO
@@ -83,4 +84,19 @@ class PokemonRepositoryTest {
 		
 		System.out.println("Sucesso! Pokémon encontrado: " + resultPokemon.get().getName());
 	}
+	
+	@Test
+	@DisplayName("Should return empty Optional when Pokémon ID does not exist")
+	void searchForPokémonByIdNotFound() {
+		
+		//ID does not exist.
+		int IdnotfountPokemon = 1510;
+		
+		Optional<Pokemon> resultPokemon = pokemonRepository.findById(IdnotfountPokemon);
+		
+		assertThat(resultPokemon).isEmpty();
+		System.out.println("Sucess! Pokemon not found.");
+		
+	}
+	
 }
