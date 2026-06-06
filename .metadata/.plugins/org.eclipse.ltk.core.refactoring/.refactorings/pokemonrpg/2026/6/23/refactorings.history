@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring accessors="true" comment="Delete element from project &apos;pokemonrpg&apos;&#x0D;&#x0A;- Original project: &apos;pokemonrpg&apos;&#x0D;&#x0A;- Original element: &apos;pokemonrpg/src/test/java/com.pokemon.pokemonrpg&apos;" description="Delete element" element1="/src\/test\/java=/optional=/true=/=/maven.pomderived=/true=/=/test=/true=/&lt;com.pokemon.pokemonrpg" elements="1" flags="589830" id="org.eclipse.jdt.ui.delete" resources="0" stamp="1780709383085" subPackages="false" version="1.0"/>
+</session>
