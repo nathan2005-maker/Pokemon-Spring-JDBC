@@ -1,5 +1,0 @@
-package com.pokemon.pokemonrpg.service;
-
-public class ExceptionError {
-
-}
