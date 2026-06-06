@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Optional;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -82,7 +83,7 @@ class PokemonRepositoryTest {
 		assertEquals("Grass", resultPokemon.get().getType1());
 		assertEquals(49, resultPokemon.get().getAttack());
 		
-		System.out.println("Sucesso! Pokémon encontrado: " + resultPokemon.get().getName());
+		System.out.println("Sucess! Pokémon found: " + resultPokemon.get().getName());
 	}
 	
 	@Test
@@ -97,6 +98,49 @@ class PokemonRepositoryTest {
 		assertThat(resultPokemon).isEmpty();
 		System.out.println("Sucess! Pokemon not found.");
 		
+	}
+	
+	
+	@Test
+	@DisplayName("Should find all Pokémon successfully")
+	void findAllPokemonsSuccess() {
+		// Insert Two data
+		jdbcTemplate.update(
+			"INSERT INTO pokemon (id, name, hp, attack, defense, Type1, Type2, speed, spAttack, spDefense) "
+			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+			1, "Bulbasaur", 45, 49, 49, "Grass", "Poison", 45, 65, 65
+		);
+		jdbcTemplate.update(
+			"INSERT INTO pokemon (id, name, hp, attack, defense, Type1, Type2, speed, spAttack, spDefense) "
+			+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+			2, "Charmander", 39, 52, 43, "Fire", null, 65, 60, 50
+		);
+		
+		// Full search
+		List<Pokemon> pokemons = pokemonRepository.findAll();
+		
+		
+		assertThat(pokemons)
+			.isNotEmpty()
+			.hasSize(2)
+			.extracting("name")
+			.containsExactlyInAnyOrder("Bulbasaur", "Charmander");
+			
+		System.out.println("Sucesso! findAll return Pokemon correct");
+	}
+	
+	
+	@Test
+	@DisplayName("Should return an empty list ")
+	void findAllPokemonsNotFound() {
+		
+		// Full search
+		List<Pokemon> pokemons = pokemonRepository.findAll();
+		
+		
+		assertThat(pokemons).isEmpty();
+			
+		System.out.println("Sucesso! findAll return an enpty list correct");
 	}
 	
 }
